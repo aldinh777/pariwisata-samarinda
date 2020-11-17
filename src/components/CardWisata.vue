@@ -16,7 +16,7 @@
         </div>
         <q-separator />
         <div class="q-pa-md text-center text-white">
-          <q-btn class="bg-orange-6 q-pa-xs">Lebih Lanjut</q-btn>
+          <q-btn to="/wisata/1" class="bg-orange-6 q-pa-xs">Lebih Lanjut</q-btn>
         </div>
       </div>
     </q-card>
