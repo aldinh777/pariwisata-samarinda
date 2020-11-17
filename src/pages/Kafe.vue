@@ -21,24 +21,27 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
-
-const sampleKafe = {
-  img: 'http://localhost:8000/img/kafe/ruang-teduh.jpg',
-  title: 'Ruang Teduh Coffee & Eatery Juanda',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Jam Buka : 09.00–00.00',
-  target: '/kafe/1'
-}
-const kafe = [sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe]
 
 export default {
   components: { SimpleCard },
   name: 'PageKafe',
   data () {
     return {
-      kafe
+      kafe: null
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/kafe')
+      .then(response => (this.kafe = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.jam_buka,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/kafe/' + res.id
+      }))))
   }
 }
 </script>

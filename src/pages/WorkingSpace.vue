@@ -21,16 +21,8 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
-
-const sampleWorkingSpace = {
-  img: 'http://localhost:8000/img/workingspace/ruangku.jpg',
-  title: 'Ruangku Coworking Space',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Jam Buka : 09.00–21.00',
-  target: '/workingspace/1'
-}
-const workingspace = [sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace]
 
 export default {
   components: {
@@ -39,8 +31,19 @@ export default {
   name: 'PageWorkingSpace',
   data () {
     return {
-      workingspace
+      workingspace: null
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/workingspace')
+      .then(response => (this.workingspace = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.jam_buka,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/workingspace/' + res.id
+      }))))
   }
 }
 </script>

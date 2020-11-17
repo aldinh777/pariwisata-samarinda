@@ -88,44 +88,9 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import ImageCard from 'src/components/ImageCard.vue'
-
-const sampleWisata = {
-  img: 'http://localhost:8000/img/wisata/Desa-Budaya-Pampang.jpg',
-  title: 'Desa Budaya Pampang',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore sint consequatur adipisci sit maxime, perspiciatis officiis similique, ratione accusantium commodi molestias eius cupiditate suscipit. Consequatur perferendis aperiam eveniet tempora voluptatem.',
-  target: '/wisata/1'
-}
-const sampleKafe = {
-  img: 'http://localhost:8000/img/kafe/ruang-teduh.jpg',
-  title: 'Ruang Teduh Coffee & Eatery Juanda',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Jam Buka : 09.00–00.00',
-  target: '/kafe/1'
-}
-const sampleWorkingSpace = {
-  img: 'http://localhost:8000/img/workingspace/ruangku.jpg',
-  title: 'Ruangku Coworking Space',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Jam Buka : 09.00–21.00',
-  target: '/workingspace/1'
-}
-const sampleKuliner = {
-  img: 'http://localhost:8000/img/kuliner/nasi-kuning.jpg',
-  title: 'Nasi Kuning'
-}
-const sampleOlehOleh = {
-  img: 'http://localhost:8000/img/oleholeh/sarung-samarinda.jpg',
-  title: 'Sarung Samarinda'
-}
-
-const wisata = [sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata]
-const kafe = [sampleKafe, sampleKafe, sampleKafe, sampleKafe]
-const workingspace = [sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace]
-const kuliner = [sampleKuliner, sampleKuliner, sampleKuliner, sampleKuliner, sampleKuliner, sampleKuliner, sampleKuliner, sampleKuliner]
-const oleholeh = [sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh]
 
 export default {
   components: {
@@ -135,12 +100,53 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      wisata,
-      kafe,
-      workingspace,
-      kuliner,
-      oleholeh
+      wisata: null,
+      kafe: null,
+      workingspace: null,
+      kuliner: null,
+      oleholeh: null
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/wisata?limit=8')
+      .then(response => (this.wisata = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.deskripsi_singkat,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/wisata/' + res.id
+      }))))
+    axios
+      .get('http://localhost:8000/api/kafe?limit=8')
+      .then(response => (this.kafe = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.jam_buka,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/kafe/' + res.id
+      }))))
+    axios
+      .get('http://localhost:8000/api/workingspace?limit=8')
+      .then(response => (this.workingspace = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.jam_buka,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/workingspace/' + res.id
+      }))))
+    axios
+      .get('http://localhost:8000/api/kuliner?limit=8')
+      .then(response => (this.kuliner = response.data.map(res => ({
+        title: res.nama,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+      }))))
+    axios
+      .get('http://localhost:8000/api/oleholeh?limit=8')
+      .then(response => (this.oleholeh = response.data.map(res => ({
+        title: res.nama,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+      }))))
   }
 }
 </script>

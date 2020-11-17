@@ -21,24 +21,27 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
-
-const sampleWisata = {
-  img: 'http://localhost:8000/img/wisata/Desa-Budaya-Pampang.jpg',
-  title: 'Desa Budaya Pampang',
-  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore sint consequatur adipisci sit maxime, perspiciatis officiis similique, ratione accusantium commodi molestias eius cupiditate suscipit. Consequatur perferendis aperiam eveniet tempora voluptatem.',
-  target: '/wisata/1'
-}
-const wisata = [sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata, sampleWisata]
 
 export default {
   components: { SimpleCard },
   name: 'PageWisata',
   data () {
     return {
-      wisata
+      wisata: null
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/wisata')
+      .then(response => (this.wisata = response.data.map(res => ({
+        title: res.nama,
+        subtitle: res.alamat,
+        description: res.deskripsi_singkat,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/wisata/' + res.id
+      }))))
   }
 }
 </script>
