@@ -4,10 +4,16 @@
     <!-- Search Bar -->
     <search-bar />
 
-    <!-- Rekomendasi Wisata -->
-    <div class="q-pa-md">
+    <div class="q-pa-md" v-if="wisata.length + kuliner.length + kafe.length + oleholeh.length + workingspace.length == 0">
       <div class="text-center text-h4 q-pa-lg">
-        Rekomendasi Wisata
+        Pencarian Tidak Ditemukan
+      </div>
+    </div>
+
+    <!-- Hasil Pencarian Wisata -->
+    <div class="q-pa-md" v-if="wisata.length > 0">
+      <div class="text-center text-h4 q-pa-lg">
+        Hasil Pencarian Wisata
       </div>
       <div class="row">
         <simple-card v-for="place in wisata"
@@ -19,13 +25,13 @@
           :target="place.target"
         />
       </div>
+      <q-separator />
     </div>
-    <q-separator />
 
-    <!-- Rekomendasi Kuliner -->
-    <div class="q-pa-md">
+    <!-- Hasil Pencarian Kuliner -->
+    <div class="q-pa-md" v-if="kuliner.length > 0">
       <div class="text-center text-h4 q-pa-lg">
-        Rekomendasi Kuliner
+        Hasil Pencarian Kuliner
       </div>
       <div class="row">
         <image-card v-for="food in kuliner"
@@ -34,13 +40,13 @@
           :title="food.title"
         />
       </div>
+      <q-separator />
     </div>
-    <q-separator />
 
-    <!-- Rekomendasi Kafe -->
-    <div class="q-pa-md">
+    <!-- Hasil Pencarian Kafe -->
+    <div class="q-pa-md" v-if="kafe.length > 0">
       <div class="text-center text-h4 q-pa-lg">
-        Rekomendasi Kafe
+        Hasil Pencarian Kafe
       </div>
       <div class="row">
         <simple-card v-for="place in kafe"
@@ -52,13 +58,13 @@
           :target="place.target"
         />
       </div>
+      <q-separator />
     </div>
-    <q-separator />
 
-    <!-- Rekomendasi Oleh-Oleh -->
-    <div class="q-pa-md">
+    <!-- Hasil Pencarian Oleh-Oleh -->
+    <div class="q-pa-md" v-if="oleholeh.length > 0">
       <div class="text-center text-h4 q-pa-lg">
-        Rekomendasi Oleh-Oleh
+        Hasil Pencarian Oleh-Oleh
       </div>
       <div class="row">
         <image-card v-for="food in oleholeh"
@@ -67,13 +73,13 @@
           :title="food.title"
         />
       </div>
+      <q-separator />
     </div>
-    <q-separator />
 
-    <!-- Rekomendasi Working Space -->
-    <div class="q-pa-md">
+    <!-- Hasil Pencarian Working Space -->
+    <div class="q-pa-md" v-if="workingspace.length > 0">
       <div class="text-center text-h4 q-pa-lg">
-        Rekomendasi Working Space
+        Hasil Pencarian Working Space
       </div>
       <div class="row">
         <simple-card v-for="place in workingspace"
@@ -105,16 +111,19 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      wisata: null,
-      kafe: null,
-      workingspace: null,
-      kuliner: null,
-      oleholeh: null
+      wisata: [],
+      kafe: [],
+      workingspace: [],
+      kuliner: [],
+      oleholeh: [],
+      notfound: true
     }
   },
   mounted () {
+    const key = this.$route.query.key
+
     axios
-      .get('http://localhost:8000/api/wisata?limit=8')
+      .get('http://localhost:8000/api/wisata/search?key=' + key)
       .then(response => (this.wisata = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
@@ -123,7 +132,7 @@ export default {
         target: '/wisata/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/kafe?limit=8')
+      .get('http://localhost:8000/api/kafe/search?key=' + key)
       .then(response => (this.kafe = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
@@ -132,7 +141,7 @@ export default {
         target: '/kafe/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/workingspace?limit=8')
+      .get('http://localhost:8000/api/workingspace/search?key=' + key)
       .then(response => (this.workingspace = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
@@ -141,13 +150,13 @@ export default {
         target: '/workingspace/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/kuliner?limit=8')
+      .get('http://localhost:8000/api/kuliner/search?key=' + key)
       .then(response => (this.kuliner = response.data.map(res => ({
         title: res.nama,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
       }))))
     axios
-      .get('http://localhost:8000/api/oleholeh?limit=8')
+      .get('http://localhost:8000/api/oleholeh/search?key=' + key)
       .then(response => (this.oleholeh = response.data.map(res => ({
         title: res.nama,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar

@@ -1,5 +1,6 @@
 <template>
   <q-page class="bg-grey-2">
+    <search-bar />
 
     <div class="q-pa-md">
       <div class="text-center text-h4 q-pa-lg">
@@ -23,10 +24,12 @@
 <script>
 import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
+import SearchBar from 'src/components/SearchBar.vue'
 
 export default {
   components: {
-    SimpleCard
+    SimpleCard,
+    SearchBar
   },
   name: 'PageWorkingSpace',
   data () {

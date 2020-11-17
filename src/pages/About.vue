@@ -1,5 +1,6 @@
 <template>
   <q-page class="bg-grey-2">
+    <search-bar />
 
     <div class="q-pa-md text-center">
       <div class="text-h2 text-bold q-pa-lg">
@@ -42,7 +43,9 @@
 </template>
 
 <script>
+import SearchBar from 'src/components/SearchBar.vue'
 export default {
+  components: { SearchBar },
   name: 'PageAbout'
 }
 </script>
