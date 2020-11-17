@@ -2,6 +2,11 @@
   <q-page class="bg-grey-2">
     <search-bar />
 
+    <!-- Banner -->
+    <div>
+      <img class="full-width" src="https://st4.depositphotos.com/6188090/19830/v/1600/depositphotos_198308926-stock-illustration-super-sale-discount-horizontal-banner.jpg" alt="">
+    </div>
+
     <div class="q-pa-md">
       <div class="text-center text-h4 q-pa-lg">
        Oleh-Oleh Kota Samarinda

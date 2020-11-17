@@ -2,6 +2,11 @@
   <q-page class="bg-grey-2">
     <search-bar />
 
+    <!-- Banner -->
+    <div>
+      <img class="full-width" src="https://st3.depositphotos.com/2100659/33242/v/1600/depositphotos_332426834-stock-illustration-mega-sale-concept-horizontal-banner.jpg" alt="">
+    </div>
+
     <div class="q-pa-md">
       <div class="text-center text-h4 q-pa-lg">
         Destinasi Wisata Kota Samarinda

@@ -37,6 +37,12 @@
     </div>
     <q-separator />
 
+    <!-- Banner -->
+    <div>
+      <img class="full-width" src="https://st3.depositphotos.com/2100659/33242/v/1600/depositphotos_332426834-stock-illustration-mega-sale-concept-horizontal-banner.jpg" alt="">
+    </div>
+    <q-separator />
+
     <!-- Rekomendasi Kafe -->
     <div class="q-pa-md">
       <div class="text-center text-h4 q-pa-lg">
@@ -67,6 +73,12 @@
           :title="food.title"
         />
       </div>
+    </div>
+    <q-separator />
+
+    <!-- Banner -->
+    <div>
+      <img class="full-width" src="https://st4.depositphotos.com/6188090/19830/v/1600/depositphotos_198308926-stock-illustration-super-sale-discount-horizontal-banner.jpg" alt="">
     </div>
     <q-separator />
 
