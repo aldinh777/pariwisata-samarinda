@@ -6,14 +6,14 @@
        Oleh-Oleh Kota Samarinda
       </div>
       <div class="row">
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
-        <card-oleh-oleh />
+        <simple-card v-for="food in oleholeh"
+          :key="food.target"
+          :img="food.img"
+          :title="food.title"
+          :subtitle="food.subtitle"
+          :description="food.description"
+          :target="food.target"
+        />
       </div>
     </div>
 
@@ -21,9 +21,23 @@
 </template>
 
 <script>
-import CardOlehOleh from 'src/components/CardOlehOleh.vue'
+import SimpleCard from 'src/components/SimpleCard.vue'
+
+const sampleOlehOleh = {
+  img: 'http://localhost:8000/img/oleholeh/sarung-samarinda.jpg',
+  title: 'Sarung Samarinda',
+  description: 'Sarung Samarinda merupakan salah satu produk unggulan yang diproduksi oleh masyarakat lokal Samarinda.',
+  target: '/oleholeh/1'
+}
+const oleholeh = [sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh, sampleOlehOleh]
+
 export default {
-  components: { CardOlehOleh },
-  name: 'PageOlehOleh'
+  components: { SimpleCard },
+  name: 'PageOlehOleh',
+  data () {
+    return {
+      oleholeh
+    }
+  }
 }
 </script>

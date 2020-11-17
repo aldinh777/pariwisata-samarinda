@@ -6,14 +6,14 @@
         Kafe Kota Samarinda
       </div>
       <div class="row">
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
-        <card-kafe />
+        <simple-card v-for="place in kafe"
+          :key="place.target"
+          :img="place.img"
+          :title="place.title"
+          :subtitle="place.subtitle"
+          :description="place.description"
+          :target="place.target"
+        />
       </div>
     </div>
 
@@ -21,9 +21,24 @@
 </template>
 
 <script>
-import CardKafe from 'src/components/CardKafe.vue'
+import SimpleCard from 'src/components/SimpleCard.vue'
+
+const sampleKafe = {
+  img: 'http://localhost:8000/img/kafe/ruang-teduh.jpg',
+  title: 'Ruang Teduh Coffee & Eatery Juanda',
+  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
+  description: 'Jam Buka : 09.00–00.00',
+  target: '/kafe/1'
+}
+const kafe = [sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe, sampleKafe]
+
 export default {
-  components: { CardKafe },
-  name: 'PageKafe'
+  components: { SimpleCard },
+  name: 'PageKafe',
+  data () {
+    return {
+      kafe
+    }
+  }
 }
 </script>

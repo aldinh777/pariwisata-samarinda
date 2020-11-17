@@ -6,14 +6,14 @@
         Working Space Kota Samarinda
       </div>
       <div class="row">
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
-        <card-working-space />
+        <simple-card v-for="place in workingspace"
+          :key="place.target"
+          :img="place.img"
+          :title="place.title"
+          :subtitle="place.subtitle"
+          :description="place.description"
+          :target="place.target"
+        />
       </div>
     </div>
 
@@ -21,12 +21,26 @@
 </template>
 
 <script>
-import CardWorkingSpace from 'src/components/CardWorkingSpace.vue'
+import SimpleCard from 'src/components/SimpleCard.vue'
+
+const sampleWorkingSpace = {
+  img: 'http://localhost:8000/img/workingspace/ruangku.jpg',
+  title: 'Ruangku Coworking Space',
+  subtitle: 'Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda',
+  description: 'Jam Buka : 09.00–21.00',
+  target: '/workingspace/1'
+}
+const workingspace = [sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace, sampleWorkingSpace]
 
 export default {
   components: {
-    CardWorkingSpace
+    SimpleCard
   },
-  name: 'PageWorkingSpace'
+  name: 'PageWorkingSpace',
+  data () {
+    return {
+      workingspace
+    }
+  }
 }
 </script>
