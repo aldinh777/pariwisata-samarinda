@@ -136,7 +136,7 @@ export default {
       .then(response => (this.kafe = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
-        description: res.jam_buka,
+        description: 'Jam Buka : ' + res.jam_buka,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
         target: '/kafe/' + res.id
       }))))
@@ -145,7 +145,7 @@ export default {
       .then(response => (this.workingspace = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
-        description: res.jam_buka,
+        description: 'Jam Buka : ' + res.jam_buka,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
         target: '/workingspace/' + res.id
       }))))

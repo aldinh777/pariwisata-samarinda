@@ -4,7 +4,7 @@
     <div class="q-pa-sm">
       <div class="row">
         <div class="col-12 col-sm-9 q-pa-sm">
-          <img src="http://localhost:8000/img/oleholeh/sarung-samarinda.jpg" alt="Gambar" class="full-width" />
+          <img :src="img" alt="Gambar" class="full-width" />
           <q-card>
             <q-tabs v-model="tab">
               <q-tab name="deskripsi" label="Deskripsi" />
@@ -14,8 +14,8 @@
             <q-separator />
             <q-tab-panels v-model="tab">
               <q-tab-panel name="deskripsi" class="q-pa-lg">
-                <div class="text-h5 q-mb-lg">Sarung Samarinda</div>
-                <div class="q-mb-lg" style="white-space: pre-wrap">Anda pasti sangat familiar dengan sarung, karena orang Indonesia doyan mengenakan sarung. Sarung Samarinda merupakan salah satu produk unggulan yang diproduksi oleh masyarakat lokal Samarinda. Dahulu Sarung Samarinda diperkenalkan pertama kali oleh pendatang suku Bigis yang berasal dari Sulawesi pada tahun 1668. Tentunya anda menginginkan oleh-oleh khas Samarinda yang terbuat dari kain seperti sarung satu ini. Anda bisa menjadikan kain sarung ini pada saat moment lebaran bersama keluarga. Harga Sarung Samarinda berkisar 100-200 ribu rupiah tergantung ukuran dan bahan dasarnya.</div>
+                <div class="text-h5 q-mb-lg">{{ title }}</div>
+                <div class="q-mb-lg" style="white-space: pre-wrap">{{ description }}</div>
               </q-tab-panel>
 
               <q-tab-panel name="lokasi" class="q-pa-lg">
@@ -46,7 +46,10 @@
                     </div>
                   </div>
                 </div>
-                <div id="location-map" style="width: 100%; height: 420px">Maps Lokasi</div>
+                <simple-maps :lat="-0.502999" :lng="117.1498923" :markers="[
+                  {lat: -0.5026361, lng: 117.1526781},
+                  {lat: -0.4994576, lng: 117.1467443}
+                ]" />
               </q-tab-panel>
 
               <q-tab-panel name="review" class="q-pa-lg">
@@ -78,19 +81,12 @@
           <q-card class="q-pa-md">
             <div class="text-h6 text-blue-8">Lihat Juga</div>
             <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/oleholeh/keminting-samarinda.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Keminting Samarinda</div>
-            </div>
-            <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/oleholeh/keminting-samarinda.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Keminting Samarinda</div>
-            </div>
-            <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/oleholeh/keminting-samarinda.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Keminting Samarinda</div>
+            <div v-for="rec in recomendation" :key="rec.id">
+              <div class="q-mt-md q-mb-md">
+                <img :src="rec.gambar" alt="Gambar" class="full-width">
+                <div class="text-bold q-mt-md">{{ rec.nama }}</div>
+              </div>
+              <q-separator />
             </div>
           </q-card>
         </div>
@@ -101,13 +97,37 @@
 </template>
 
 <script>
+import axios from 'axios'
+import SimpleMaps from 'src/components/SimpleMaps.vue'
 
 export default {
   name: 'PageDetailOlehOleh',
+  components: { SimpleMaps },
   data () {
     return {
-      tab: 'deskripsi'
+      tab: 'deskripsi',
+      recomendation: [],
+      title: '',
+      description: '',
+      img: ''
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/oleholeh?id=' + this.$route.params.id)
+      .then(response => {
+        const { nama, deskripsi, gambar } = response.data
+        this.title = nama
+        this.description = deskripsi
+        this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+      })
+    axios
+      .get('http://localhost:8000/api/oleholeh?limit=3&exceptId=' + this.$route.params.id)
+      .then(response => (this.recomendation = response.data.map(function (rec) {
+        const { gambar } = rec
+        rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+        return rec
+      })))
   }
 }
 </script>

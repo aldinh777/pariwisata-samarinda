@@ -4,7 +4,7 @@
     <div class="q-pa-sm">
       <div class="row">
         <div class="col-12 col-sm-9 q-pa-sm">
-          <img src="http://localhost:8000/img/wisata/Desa-Budaya-Pampang.jpg" alt="Gambar" class="full-width" />
+          <img :src="img" alt="Gambar" class="full-width" />
           <q-card>
             <q-tabs v-model="tab">
               <q-tab name="deskripsi" label="Deskripsi" />
@@ -16,21 +16,19 @@
             <q-separator />
             <q-tab-panels v-model="tab">
               <q-tab-panel name="deskripsi" class="q-pa-lg">
-                <div class="text-h5 q-mb-lg">Desa Budaya Pampang</div>
-                <div class="text-bold q-mb-lg text-grey-8">Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda</div>
-                <div class="q-mb-lg" style="white-space: pre-wrap">Desa Budaya Pampang, menjadi salah satu destinasi yang bisa Kamu kunjungi jika ingin mengenal budaya lokal suku di Samarinda. Desa budaya ini dihuni oleh suku Dayak Kenyah asli. Desa ini juga memiliki keunikan, tak heran jika banyak wisatawan yang berkunjung kesini.
-
-Selain melihat berbagai aktivitas warga suku Dayak, Kamu juga bisa menikmati pertunjukan seni setiap hari minggu siang di balai pertemuan atau lamin. Uniknya, saat pertunjukan berlangsung seluruh masyarakat Desa Pampang akan mengenakan baju tradisionalnya.</div>
+                <div class="text-h5 q-mb-lg">{{ title }}</div>
+                <div class="text-bold q-mb-lg text-grey-8">{{ address }}</div>
+                <div class="q-mb-lg" style="white-space: pre-wrap">{{ description }}</div>
               </q-tab-panel>
 
               <q-tab-panel name="lokasi" class="q-pa-lg">
                 <div class="text-h5 q-mb-lg">Info Lokasi</div>
-                <div id="location-map" style="width: 100%; height: 420px">Maps Lokasi</div>
+                <simple-maps :lat="position.lat" :lng="position.lng" />
                 <div>
                   <ul>
-                    <li>Alamat : Jl. Wisata Budaya Pampang, No.32, RT.03, Kec Sam. Utara, Kota Samarinda</li>
-                    <li>Latitude : -0.3775379</li>
-                    <li>Longitude : 117.2279942</li>
+                    <li>Alamat : {{ address }}</li>
+                    <li>Latitude : {{ position.lat }}</li>
+                    <li>Longitude : {{ position.lng }}</li>
                   </ul>
                 </div>
                 <div class="text-h6">Jarak dari bandara (Bandara Internasional Aji Pangeran Tumenggung Pranoto)</div>
@@ -41,7 +39,10 @@ Selain melihat berbagai aktivitas warga suku Dayak, Kamu juga bisa menikmati per
 
               <q-tab-panel name="akomodasi" class="q-pa-lg">
                 <div class="text-h5 q-mb-lg">Hotel Terdekat</div>
-                <div id="location-hotel" style="width: 100%; height: 420px">Maps Hotel</div>
+                <simple-maps :lat="-0.502999" :lng="117.1498923" :markers="[
+                  {lat: -0.5026361, lng: 117.1526781},
+                  {lat: -0.4994576, lng: 117.1467443}
+                ]" />
                 <div class="q-mb-sm q-mt-sm">
                   <q-card class="q-pa-xs">
                     <img src="https://cdn6.agoda.net/images/accommodation/other-property-types/entire-apartment.jpg" alt="Gambar" style="width: 120px; height: 120px">
@@ -129,22 +130,13 @@ Selain melihat berbagai aktivitas warga suku Dayak, Kamu juga bisa menikmati per
           <q-card class="q-pa-md">
             <div class="text-h6 text-blue-8">Lihat Juga</div>
             <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/wisata/Air-Terjun-Tanah-Merah.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Air Terjun Tanah Merah</div>
-              <div>Jl. Muara Badak , Tanah Merah, Kec. Samarinda Utara, Kota Samarinda</div>
-            </div>
-            <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/wisata/Air-Terjun-Tanah-Merah.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Air Terjun Tanah Merah</div>
-              <div>Jl. Muara Badak , Tanah Merah, Kec. Samarinda Utara, Kota Samarinda</div>
-            </div>
-            <q-separator />
-            <div class="q-mt-md q-mb-md">
-              <img src="http://localhost:8000/img/wisata/Air-Terjun-Tanah-Merah.jpg" alt="Gambar" class="full-width">
-              <div class="text-bold q-mt-md">Air Terjun Tanah Merah</div>
-              <div>Jl. Muara Badak , Tanah Merah, Kec. Samarinda Utara, Kota Samarinda</div>
+            <div v-for="rec in recomendation" :key="rec.id">
+              <div class="q-mt-md q-mb-md">
+                <img :src="rec.gambar" alt="Gambar" class="full-width">
+                <div class="text-bold q-mt-md">{{ rec.nama }}</div>
+                <div>{{ rec.lokasi }}</div>
+              </div>
+              <q-separator />
             </div>
           </q-card>
         </div>
@@ -155,13 +147,44 @@ Selain melihat berbagai aktivitas warga suku Dayak, Kamu juga bisa menikmati per
 </template>
 
 <script>
+import axios from 'axios'
+import SimpleMaps from 'src/components/SimpleMaps.vue'
 
 export default {
   name: 'PageDetailWisata',
+  components: { SimpleMaps },
   data () {
     return {
-      tab: 'deskripsi'
+      tab: 'deskripsi',
+      recomendation: [],
+      title: '',
+      address: '',
+      description: '',
+      img: '',
+      position: {
+        lat: 0,
+        lng: 0
+      }
     }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/wisata?id=' + this.$route.params.id)
+      .then(response => {
+        const { nama, lokasi, deskripsi, gambar, lat, lng } = response.data
+        this.title = nama
+        this.address = lokasi
+        this.description = deskripsi
+        this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+        this.position = { lat, lng }
+      })
+    axios
+      .get('http://localhost:8000/api/wisata?limit=3&exceptId=' + this.$route.params.id)
+      .then(response => (this.recomendation = response.data.map(function (rec) {
+        const { gambar } = rec
+        rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+        return rec
+      })))
   }
 }
 </script>

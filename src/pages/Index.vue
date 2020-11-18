@@ -32,6 +32,7 @@
           :key="food.target"
           :img="food.img"
           :title="food.title"
+          :target="food.target"
         />
       </div>
     </div>
@@ -71,6 +72,7 @@
           :key="food.target"
           :img="food.img"
           :title="food.title"
+          :target="food.target"
         />
       </div>
     </div>
@@ -139,7 +141,7 @@ export default {
       .then(response => (this.kafe = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
-        description: res.jam_buka,
+        description: 'Jam Buka : ' + res.jam_buka,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
         target: '/kafe/' + res.id
       }))))
@@ -148,7 +150,7 @@ export default {
       .then(response => (this.workingspace = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
-        description: res.jam_buka,
+        description: 'Jam Buka : ' + res.jam_buka,
         img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
         target: '/workingspace/' + res.id
       }))))
@@ -156,13 +158,15 @@ export default {
       .get('http://localhost:8000/api/kuliner?limit=8')
       .then(response => (this.kuliner = response.data.map(res => ({
         title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/kuliner/' + res.id
       }))))
     axios
       .get('http://localhost:8000/api/oleholeh?limit=8')
       .then(response => (this.oleholeh = response.data.map(res => ({
         title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        target: '/oleholeh/' + res.id
       }))))
   }
 }
