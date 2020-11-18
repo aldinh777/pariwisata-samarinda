@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 col-md-3 col-sm-6 q-pa-sm">
-    <q-card>
-      <img :src="img" alt="Gambar">
+    <q-card class="full-height">
+      <img :src="img" alt="Gambar" class="full-width" style="height: 200px">
       <div>
         <div class="q-pa-md">
           <div class="text-h6">{{title}}</div>
@@ -11,9 +11,17 @@
         <div class="q-pa-md">
           {{description}}
         </div>
-        <q-separator />
-        <div class="q-pa-md text-center text-white">
-          <q-btn :to="target" class="bg-orange-6 q-pa-xs">Lebih Lanjut</q-btn>
+        <div style="visibility: hidden">
+          <q-separator />
+          <div class="q-pa-md text-center text-white" style="position: relative; bottom: 0px">
+            <q-btn :to="target" class="bg-orange-6 q-pa-xs">Lebih Lanjut</q-btn>
+          </div>
+        </div>
+        <div style="position: absolute; bottom: 0px" class="full-width">
+          <q-separator />
+          <div class="q-pa-md text-center text-white" style="position: relative; bottom: 0px">
+            <q-btn :to="target" class="bg-orange-6 q-pa-xs">Lebih Lanjut</q-btn>
+          </div>
         </div>
       </div>
     </q-card>
