@@ -130,7 +130,7 @@
           <q-card class="q-pa-md">
             <div class="text-h6 text-blue-8">Lihat Juga</div>
             <q-separator />
-            <div v-for="rec in recomendation" :key="rec.id">
+            <div v-for="rec in recomendation" :key="rec.id" @click="forward(rec.id)">
               <div class="q-mt-md q-mb-md">
                 <img :src="rec.gambar" alt="Gambar" class="full-width">
                 <div class="text-bold q-mt-md">{{ rec.nama }}</div>
@@ -167,24 +167,38 @@ export default {
       }
     }
   },
+  methods: {
+    getData (id) {
+      axios
+        .get('http://localhost:8000/api/wisata?id=' + id)
+        .then(response => {
+          const { nama, lokasi, deskripsi, gambar, lat, lng } = response.data
+          this.title = nama
+          this.address = lokasi
+          this.description = deskripsi
+          this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          this.position = { lat, lng }
+        })
+    },
+    getRecomendation (id) {
+      axios
+        .get('http://localhost:8000/api/wisata?limit=3&exceptId=' + id)
+        .then(response => (this.recomendation = response.data.map(function (rec) {
+          const { gambar } = rec
+          rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          return rec
+        })))
+    },
+    forward (id) {
+      this.getData(id)
+      this.getRecomendation(id)
+      this.$router.push('/wisata/' + id)
+    }
+  },
   mounted () {
-    axios
-      .get('http://localhost:8000/api/wisata?id=' + this.$route.params.id)
-      .then(response => {
-        const { nama, lokasi, deskripsi, gambar, lat, lng } = response.data
-        this.title = nama
-        this.address = lokasi
-        this.description = deskripsi
-        this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
-        this.position = { lat, lng }
-      })
-    axios
-      .get('http://localhost:8000/api/wisata?limit=3&exceptId=' + this.$route.params.id)
-      .then(response => (this.recomendation = response.data.map(function (rec) {
-        const { gambar } = rec
-        rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
-        return rec
-      })))
+    const id = this.$route.params.id
+    this.getData(id)
+    this.getRecomendation(id)
   }
 }
 </script>
