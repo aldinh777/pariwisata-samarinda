@@ -38,13 +38,8 @@ export default {
       return this.$store.state.kuliner.list
     }
   },
-  methods: {
-    getListKuliner () {
-      this.$store.dispatch('kuliner/getList')
-    }
-  },
-  mounted () {
-    this.getListKuliner()
+  preFetch ({ store }) {
+    return store.dispatch('kuliner/getList')
   }
 }
 </script>

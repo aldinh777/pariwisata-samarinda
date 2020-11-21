@@ -27,27 +27,19 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
 
 export default {
   components: { SimpleCard, SearchBar },
   name: 'PageOlehOleh',
-  data () {
-    return {
-      oleholeh: null
+  computed: {
+    oleholeh () {
+      return this.$store.state.oleholeh.list
     }
   },
-  mounted () {
-    axios
-      .get('http://' + location.hostname + ':8000/api/oleholeh')
-      .then(response => (this.oleholeh = response.data.map(res => ({
-        title: res.nama,
-        description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/oleholeh/' + res.id
-      }))))
+  preFetch ({ store }) {
+    return store.dispatch('oleholeh/getList')
   }
 }
 </script>

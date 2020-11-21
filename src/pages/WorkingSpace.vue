@@ -41,13 +41,8 @@ export default {
       return this.$store.state.workingspace.list
     }
   },
-  methods: {
-    getListWorkingSpace () {
-      this.$store.dispatch('workingspace/getList')
-    }
-  },
-  mounted () {
-    this.getListWorkingSpace()
+  preFetch ({ store }) {
+    return store.dispatch('workingspace/getList')
   }
 }
 </script>

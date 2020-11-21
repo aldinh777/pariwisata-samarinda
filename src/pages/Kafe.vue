@@ -38,13 +38,8 @@ export default {
       return this.$store.state.kafe.list
     }
   },
-  methods: {
-    getListKafe () {
-      this.$store.dispatch('kafe/getList')
-    }
-  },
-  mounted () {
-    this.getListKafe()
+  preFetch ({ store }) {
+    return store.dispatch('kafe/getList')
   }
 }
 </script>

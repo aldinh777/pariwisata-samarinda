@@ -133,12 +133,14 @@ export default {
       return this.$store.state.workingspace.list
     }
   },
-  mounted () {
-    this.$store.dispatch('wisata/getList', 8)
-    this.$store.dispatch('kafe/getList', 8)
-    this.$store.dispatch('kuliner/getList', 8)
-    this.$store.dispatch('oleholeh/getList', 8)
-    this.$store.dispatch('workingspace/getList', 8)
+  preFetch ({ store }) {
+    return Promise.all([
+      store.dispatch('wisata/getList', 8),
+      store.dispatch('kafe/getList', 8),
+      store.dispatch('kuliner/getList', 8),
+      store.dispatch('oleholeh/getList', 8),
+      store.dispatch('workingspace/getList', 8)
+    ])
   }
 }
 </script>

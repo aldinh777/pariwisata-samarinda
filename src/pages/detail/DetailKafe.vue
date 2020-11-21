@@ -120,22 +120,16 @@ export default {
     }
   },
   methods: {
-    getData (id) {
-      this.$store.dispatch('kafe/getData', id)
-    },
-    getRecomendation (id) {
-      this.$store.dispatch('kafe/getRecomendations', id)
-    },
     forward (id) {
-      this.getData(id)
-      this.getRecomendation(id)
       this.$router.push('/kafe/' + id)
     }
   },
-  mounted () {
-    const id = this.$route.params.id
-    this.getData(id)
-    this.getRecomendation(id)
+  preFetch ({ currentRoute, store }) {
+    const id = currentRoute.params.id
+    return Promise.all([
+      store.dispatch('kafe/getData', id),
+      store.dispatch('kafe/getRecomendations', id)
+    ])
   }
 }
 </script>

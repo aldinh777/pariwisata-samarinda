@@ -116,22 +116,16 @@ export default {
     }
   },
   methods: {
-    getData (id) {
-      this.$store.dispatch('kuliner/getData', id)
-    },
-    getRecomendations (id) {
-      this.$store.dispatch('kuliner/getRecomendations')
-    },
     forward (id) {
-      this.getData(id)
-      this.getRecomendation(id)
       this.$router.push('/kuliner/' + id)
     }
   },
-  mounted () {
-    const id = this.$route.params.id
-    this.getData(id)
-    this.getRecomendations(id)
+  preFetch ({ store, currentRoute }) {
+    const id = currentRoute.params.id
+    return Promise.all([
+      store.dispatch('kuliner/getData', id),
+      store.dispatch('kuliner/getRecomendations', id)
+    ])
   }
 }
 </script>

@@ -109,7 +109,7 @@ export default {
     ImageCard,
     SearchBar
   },
-  name: 'PageIndex',
+  name: 'PageSearch',
   computed: {
     wisata () {
       return this.$store.state.search.wisata
@@ -127,14 +127,16 @@ export default {
       return this.$store.state.search.oleholeh
     }
   },
-  mounted () {
-    const key = this.$route.query.key
+  preFetch ({ store, currentRoute }) {
+    const key = currentRoute.query.key
 
-    this.$store.dispatch('search/searchWisata', key)
-    this.$store.dispatch('search/searchKafe', key)
-    this.$store.dispatch('search/searchWorkingSpace', key)
-    this.$store.dispatch('search/searchKuliner', key)
-    this.$store.dispatch('search/searchOlehOleh', key)
+    return Promise.all([
+      store.dispatch('search/searchWisata', key),
+      store.dispatch('search/searchKafe', key),
+      store.dispatch('search/searchWorkingSpace', key),
+      store.dispatch('search/searchKuliner', key),
+      store.dispatch('search/searchOlehOleh', key)
+    ])
   }
 }
 </script>

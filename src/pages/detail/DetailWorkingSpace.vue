@@ -114,22 +114,16 @@ export default {
     }
   },
   methods: {
-    getData (id) {
-      this.$store.dispatch('workingspace/getData', id)
-    },
-    getRecomendation (id) {
-      this.$store.dispatch('workingspace/getRecomendations', id)
-    },
     forward (id) {
-      this.getData(id)
-      this.getRecomendation(id)
       this.$router.push('/workingspace/' + id)
     }
   },
-  mounted () {
-    const id = this.$route.params.id
-    this.getData(id)
-    this.getRecomendation(id)
+  preFetch ({ store, currentRoute }) {
+    const id = currentRoute.params.id
+    return Promise.all([
+      store.dispatch('workingspace/getData', id),
+      store.dispatch('workingspace/getRecomendations', id)
+    ])
   }
 }
 </script>

@@ -166,22 +166,16 @@ export default {
     }
   },
   methods: {
-    getData (id) {
-      this.$store.dispatch('wisata/getData', id)
-    },
-    getRecomendation (id) {
-      this.$store.dispatch('wisata/getRecomendations', id)
-    },
     forward (id) {
-      this.getData(id)
-      this.getRecomendation(id)
       this.$router.push('/wisata/' + id)
     }
   },
-  mounted () {
-    const id = this.$route.params.id
-    this.getData(id)
-    this.getRecomendation(id)
+  preFetch ({ store, currentRoute }) {
+    const id = currentRoute.params.id
+    return Promise.all([
+      store.dispatch('wisata/getData', id),
+      store.dispatch('wisata/getRecomendations', id)
+    ])
   }
 }
 </script>

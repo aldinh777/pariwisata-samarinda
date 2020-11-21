@@ -39,13 +39,8 @@ export default {
       return this.$store.state.wisata.list
     }
   },
-  methods: {
-    getListWisata () {
-      this.$store.dispatch('wisata/getList')
-    }
-  },
-  mounted () {
-    this.getListWisata()
+  preFetch ({ store }) {
+    return store.dispatch('wisata/getList')
   }
 }
 </script>
