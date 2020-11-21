@@ -4,7 +4,7 @@
     <div class="q-pa-sm">
       <div class="row">
         <div class="col-12 col-sm-9 q-pa-sm">
-          <img :src="img" alt="Gambar" class="full-width" />
+          <img :src="data.img" alt="Gambar" class="full-width" />
           <q-card>
             <q-tabs v-model="tab">
               <q-tab name="deskripsi" label="Deskripsi" />
@@ -14,8 +14,8 @@
             <q-separator />
             <q-tab-panels v-model="tab">
               <q-tab-panel name="deskripsi" class="q-pa-lg">
-                <div class="text-h5 q-mb-lg">{{ title }}</div>
-                <div class="q-mb-lg" style="white-space: pre-wrap">{{ description }}</div>
+                <div class="text-h5 q-mb-lg">{{ data.title }}</div>
+                <div class="q-mb-lg" style="white-space: pre-wrap">{{ data.description }}</div>
               </q-tab-panel>
 
               <q-tab-panel name="lokasi" class="q-pa-lg">
@@ -81,7 +81,7 @@
           <q-card class="q-pa-md">
             <div class="text-h6 text-blue-8">Lihat Juga</div>
             <q-separator />
-            <div v-for="rec in recomendation" :key="rec.id" @click="forward(rec.id)">
+            <div v-for="rec in recomendations" :key="rec.id" @click="forward(rec.id)">
               <div class="q-mt-md q-mb-md">
                 <img :src="rec.gambar" alt="Gambar" class="full-width">
                 <div class="text-bold q-mt-md">{{ rec.nama }}</div>
@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SimpleMaps from 'src/components/SimpleMaps'
 
 export default {
@@ -105,32 +104,23 @@ export default {
   components: { SimpleMaps },
   data () {
     return {
-      tab: 'deskripsi',
-      recomendation: [],
-      title: '',
-      description: '',
-      img: ''
+      tab: 'deskripsi'
+    }
+  },
+  computed: {
+    data () {
+      return this.$store.state.kuliner.data
+    },
+    recomendations () {
+      return this.$store.state.kuliner.recomendations
     }
   },
   methods: {
     getData (id) {
-      axios
-        .get('http://' + location.hostname + ':8000/api/kuliner?id=' + id)
-        .then(response => {
-          const { nama, deskripsi, gambar } = response.data
-          this.title = nama
-          this.description = deskripsi
-          this.img = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
-        })
+      this.$store.dispatch('kuliner/getData', id)
     },
-    getRecomendation (id) {
-      axios
-        .get('http://' + location.hostname + ':8000/api/kuliner?limit=3&exceptId=' + id)
-        .then(response => (this.recomendation = response.data.map(function (rec) {
-          const { gambar } = rec
-          rec.gambar = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
-          return rec
-        })))
+    getRecomendations (id) {
+      this.$store.dispatch('kuliner/getRecomendations')
     },
     forward (id) {
       this.getData(id)
@@ -141,7 +131,7 @@ export default {
   mounted () {
     const id = this.$route.params.id
     this.getData(id)
-    this.getRecomendation(id)
+    this.getRecomendations(id)
   }
 }
 </script>

@@ -27,28 +27,25 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
 
 export default {
   components: { SimpleCard, SearchBar },
   name: 'PageWisata',
-  data () {
-    return {
-      wisata: null
+  computed: {
+    wisata () {
+      return this.$store.state.wisata.list
+    }
+  },
+  methods: {
+    getListWisata () {
+      this.$store.dispatch('wisata/getList')
     }
   },
   mounted () {
-    axios
-      .get('http://' + location.hostname + ':8000/api/wisata')
-      .then(response => (this.wisata = response.data.map(res => ({
-        title: res.nama,
-        subtitle: res.alamat,
-        description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/wisata/' + res.id
-      }))))
+    this.getListWisata()
   }
 }
 </script>

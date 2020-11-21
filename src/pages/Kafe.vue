@@ -27,28 +27,24 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
 
 export default {
   components: { SimpleCard, SearchBar },
   name: 'PageKafe',
-  data () {
-    return {
-      kafe: null
+  computed: {
+    kafe () {
+      return this.$store.state.kafe.list
+    }
+  },
+  methods: {
+    getListKafe () {
+      this.$store.dispatch('kafe/getList')
     }
   },
   mounted () {
-    axios
-      .get('http://' + location.hostname + ':8000/api/kafe')
-      .then(response => (this.kafe = response.data.map(res => ({
-        title: res.nama,
-        subtitle: res.alamat,
-        description: 'Jam Buka : ' + res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/kafe/' + res.id
-      }))))
+    this.getListKafe()
   }
 }
 </script>

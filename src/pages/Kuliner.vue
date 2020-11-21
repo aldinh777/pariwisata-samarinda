@@ -12,7 +12,7 @@
         Kuliner Kota Samarinda
       </div>
       <div class="row">
-        <simple-card v-for="food in kuliner"
+        <simple-card v-for="food in list"
           :key="food.target"
           :img="food.img"
           :title="food.title"
@@ -27,27 +27,24 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
 
 export default {
   components: { SimpleCard, SearchBar },
   name: 'PageKuliner',
-  data () {
-    return {
-      kuliner: null
+  computed: {
+    list () {
+      return this.$store.state.kuliner.list
+    }
+  },
+  methods: {
+    getListKuliner () {
+      this.$store.dispatch('kuliner/getList')
     }
   },
   mounted () {
-    axios
-      .get('http://' + location.hostname + ':8000/api/kuliner')
-      .then(response => (this.kuliner = response.data.map(res => ({
-        title: res.nama,
-        description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/kuliner/' + res.id
-      }))))
+    this.getListKuliner()
   }
 }
 </script>
