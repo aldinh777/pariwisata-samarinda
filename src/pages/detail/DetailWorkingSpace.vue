@@ -119,23 +119,23 @@ export default {
   methods: {
     getData (id) {
       axios
-        .get('http://localhost:8000/api/workingspace?id=' + id)
+        .get('http://' + location.hostname + ':8000/api/workingspace?id=' + id)
         .then(response => {
           const { nama, alamat, deskripsi, gambar, lat, lng } = response.data
           this.title = nama
           this.address = alamat
           this.description = deskripsi
           this.open_time = response.data.jam_buka
-          this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          this.img = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
           this.position = { lat, lng }
         })
     },
     getRecomendation (id) {
       axios
-        .get('http://localhost:8000/api/workingspace?limit=3&exceptId=' + id)
+        .get('http://' + location.hostname + ':8000/api/workingspace?limit=3&exceptId=' + id)
         .then(response => (this.recomendation = response.data.map(function (rec) {
           const { gambar } = rec
-          rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          rec.gambar = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
           return rec
         })))
     },

@@ -44,12 +44,12 @@ export default {
   },
   mounted () {
     axios
-      .get('http://localhost:8000/api/workingspace')
+      .get('http://' + location.hostname + ':8000/api/workingspace')
       .then(response => (this.workingspace = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
-        description: res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        description: 'Jam Buka : ' + res.jam_buka,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
         target: '/workingspace/' + res.id
       }))))
   }

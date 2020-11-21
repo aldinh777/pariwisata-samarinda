@@ -123,43 +123,43 @@ export default {
     const key = this.$route.query.key
 
     axios
-      .get('http://localhost:8000/api/wisata/search?key=' + key)
+      .get('http://' + location.hostname + ':8000/api/wisata/search?key=' + key)
       .then(response => (this.wisata = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
         description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
         target: '/wisata/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/kafe/search?key=' + key)
+      .get('http://' + location.hostname + ':8000/api/kafe/search?key=' + key)
       .then(response => (this.kafe = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
         description: 'Jam Buka : ' + res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
         target: '/kafe/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/workingspace/search?key=' + key)
+      .get('http://' + location.hostname + ':8000/api/workingspace/search?key=' + key)
       .then(response => (this.workingspace = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
         description: 'Jam Buka : ' + res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
         target: '/workingspace/' + res.id
       }))))
     axios
-      .get('http://localhost:8000/api/kuliner/search?key=' + key)
+      .get('http://' + location.hostname + ':8000/api/kuliner/search?key=' + key)
       .then(response => (this.kuliner = response.data.map(res => ({
         title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar
       }))))
     axios
-      .get('http://localhost:8000/api/oleholeh/search?key=' + key)
+      .get('http://' + location.hostname + ':8000/api/oleholeh/search?key=' + key)
       .then(response => (this.oleholeh = response.data.map(res => ({
         title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar
       }))))
   }
 }

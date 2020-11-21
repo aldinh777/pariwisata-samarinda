@@ -115,20 +115,20 @@ export default {
   methods: {
     getData (id) {
       axios
-        .get('http://localhost:8000/api/kuliner?id=' + id)
+        .get('http://' + location.hostname + ':8000/api/kuliner?id=' + id)
         .then(response => {
           const { nama, deskripsi, gambar } = response.data
           this.title = nama
           this.description = deskripsi
-          this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          this.img = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
         })
     },
     getRecomendation (id) {
       axios
-        .get('http://localhost:8000/api/kuliner?limit=3&exceptId=' + id)
+        .get('http://' + location.hostname + ':8000/api/kuliner?limit=3&exceptId=' + id)
         .then(response => (this.recomendation = response.data.map(function (rec) {
           const { gambar } = rec
-          rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          rec.gambar = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
           return rec
         })))
     },

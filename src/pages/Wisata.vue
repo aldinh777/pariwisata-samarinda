@@ -41,12 +41,12 @@ export default {
   },
   mounted () {
     axios
-      .get('http://localhost:8000/api/wisata')
+      .get('http://' + location.hostname + ':8000/api/wisata')
       .then(response => (this.wisata = response.data.map(res => ({
         title: res.nama,
         subtitle: res.alamat,
         description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://localhost:8000' + res.gambar,
+        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
         target: '/wisata/' + res.id
       }))))
   }

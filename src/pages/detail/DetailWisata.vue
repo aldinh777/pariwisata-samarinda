@@ -170,22 +170,22 @@ export default {
   methods: {
     getData (id) {
       axios
-        .get('http://localhost:8000/api/wisata?id=' + id)
+        .get('http://' + location.hostname + ':8000/api/wisata?id=' + id)
         .then(response => {
           const { nama, lokasi, deskripsi, gambar, lat, lng } = response.data
           this.title = nama
           this.address = lokasi
           this.description = deskripsi
-          this.img = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          this.img = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
           this.position = { lat, lng }
         })
     },
     getRecomendation (id) {
       axios
-        .get('http://localhost:8000/api/wisata?limit=3&exceptId=' + id)
+        .get('http://' + location.hostname + ':8000/api/wisata?limit=3&exceptId=' + id)
         .then(response => (this.recomendation = response.data.map(function (rec) {
           const { gambar } = rec
-          rec.gambar = gambar.startsWith('http') ? gambar : 'http://localhost:8000' + gambar
+          rec.gambar = gambar.startsWith('http') ? gambar : 'http://' + location.hostname + ':8000' + gambar
           return rec
         })))
     },
