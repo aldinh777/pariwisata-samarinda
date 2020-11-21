@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SimpleCard from 'src/components/SimpleCard.vue'
 import ImageCard from 'src/components/ImageCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
@@ -117,57 +116,29 @@ export default {
     SearchBar
   },
   name: 'PageIndex',
-  data () {
-    return {
-      wisata: null,
-      kafe: null,
-      workingspace: null,
-      kuliner: null,
-      oleholeh: null
+  computed: {
+    wisata () {
+      return this.$store.state.wisata.list
+    },
+    kafe () {
+      return this.$store.state.kafe.list
+    },
+    kuliner () {
+      return this.$store.state.kuliner.list
+    },
+    oleholeh () {
+      return this.$store.state.oleholeh.list
+    },
+    workingspace () {
+      return this.$store.state.workingspace.list
     }
   },
   mounted () {
-    axios
-      .get('http://' + location.hostname + ':8000/api/wisata?limit=8')
-      .then(response => (this.wisata = response.data.map(res => ({
-        title: res.nama,
-        subtitle: res.alamat,
-        description: res.deskripsi_singkat,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/wisata/' + res.id
-      }))))
-    axios
-      .get('http://' + location.hostname + ':8000/api/kafe?limit=8')
-      .then(response => (this.kafe = response.data.map(res => ({
-        title: res.nama,
-        subtitle: res.alamat,
-        description: 'Jam Buka : ' + res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/kafe/' + res.id
-      }))))
-    axios
-      .get('http://' + location.hostname + ':8000/api/workingspace?limit=8')
-      .then(response => (this.workingspace = response.data.map(res => ({
-        title: res.nama,
-        subtitle: res.alamat,
-        description: 'Jam Buka : ' + res.jam_buka,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/workingspace/' + res.id
-      }))))
-    axios
-      .get('http://' + location.hostname + ':8000/api/kuliner?limit=8')
-      .then(response => (this.kuliner = response.data.map(res => ({
-        title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/kuliner/' + res.id
-      }))))
-    axios
-      .get('http://' + location.hostname + ':8000/api/oleholeh?limit=8')
-      .then(response => (this.oleholeh = response.data.map(res => ({
-        title: res.nama,
-        img: res.gambar.startsWith('http') ? res.gambar : 'http://' + location.hostname + ':8000' + res.gambar,
-        target: '/oleholeh/' + res.id
-      }))))
+    this.$store.dispatch('wisata/getList', 8)
+    this.$store.dispatch('kafe/getList', 8)
+    this.$store.dispatch('kuliner/getList', 8)
+    this.$store.dispatch('oleholeh/getList', 8)
+    this.$store.dispatch('workingspace/getList', 8)
   }
 }
 </script>

@@ -1,7 +1,11 @@
 import axios from 'axios'
 
-export async function getList ({ commit }) {
-  const response = await axios.get('http://' + location.hostname + ':8000/api/kafe')
+export async function getList ({ commit }, limit) {
+  let limitQuery = ''
+  if (limit) {
+    limitQuery += '?limit=' + limit
+  }
+  const response = await axios.get('http://' + location.hostname + ':8000/api/kafe' + limitQuery)
   const list = response.data.map(res => ({
     title: res.nama,
     subtitle: res.alamat,
