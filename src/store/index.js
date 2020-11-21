@@ -7,6 +7,7 @@ import kafe from './kafe'
 import workingspace from './workingspace'
 import kuliner from './kuliner'
 import oleholeh from './oleholeh'
+import search from './search'
 
 Vue.use(Vuex)
 
@@ -26,7 +27,8 @@ export default function (/* { ssrContext } */) {
       kafe,
       workingspace,
       kuliner,
-      oleholeh
+      oleholeh,
+      search
     },
 
     // enable strict mode (adds overhead!)
