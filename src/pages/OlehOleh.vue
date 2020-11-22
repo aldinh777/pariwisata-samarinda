@@ -3,9 +3,7 @@
     <search-bar />
 
     <!-- Banner -->
-    <div>
-      <img class="full-width" src="https://st4.depositphotos.com/6188090/19830/v/1600/depositphotos_198308926-stock-illustration-super-sale-discount-horizontal-banner.jpg" alt="">
-    </div>
+    <ad-banner src="https://st4.depositphotos.com/6188090/19830/v/1600/depositphotos_198308926-stock-illustration-super-sale-discount-horizontal-banner.jpg" />
 
     <div class="q-pa-md">
       <div class="text-center text-h4 q-pa-lg">
@@ -29,9 +27,10 @@
 <script>
 import SimpleCard from 'src/components/SimpleCard.vue'
 import SearchBar from 'src/components/SearchBar.vue'
+import AdBanner from 'src/components/AdBanner.vue'
 
 export default {
-  components: { SimpleCard, SearchBar },
+  components: { SimpleCard, SearchBar, AdBanner },
   name: 'PageOlehOleh',
   computed: {
     oleholeh () {

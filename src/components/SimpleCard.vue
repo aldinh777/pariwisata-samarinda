@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 col-md-3 col-sm-6 q-pa-sm">
     <q-card class="full-height">
-      <img :src="img" alt="Gambar" class="full-width" style="height: 200px">
+      <img :src="img" alt="Gambar" class="full-width" width="200" height="100" style="height: 200px" loading="lazy">
       <div>
         <div class="q-pa-md">
           <div class="text-h6">{{title}}</div>
