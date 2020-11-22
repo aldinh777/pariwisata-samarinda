@@ -14,11 +14,11 @@ const routes = [
       { path: 'oleholeh', component: () => import('pages/OlehOleh.vue') },
       { path: 'workingspace', component: () => import('pages/WorkingSpace.vue') },
 
-      { path: 'wisata/:id', component: () => import('pages/detail/DetailWisata.vue') },
-      { path: 'kafe/:id', component: () => import('pages/detail/DetailKafe.vue') },
-      { path: 'kuliner/:id', component: () => import('pages/detail/DetailKuliner.vue') },
-      { path: 'oleholeh/:id', component: () => import('pages/detail/DetailOlehOleh.vue') },
-      { path: 'workingspace/:id', component: () => import('pages/detail/DetailWorkingSpace.vue') }
+      { path: 'wisata/:slug', component: () => import('pages/detail/DetailWisata.vue') },
+      { path: 'kafe/:slug', component: () => import('pages/detail/DetailKafe.vue') },
+      { path: 'kuliner/:slug', component: () => import('pages/detail/DetailKuliner.vue') },
+      { path: 'oleholeh/:slug', component: () => import('pages/detail/DetailOlehOleh.vue') },
+      { path: 'workingspace/:slug', component: () => import('pages/detail/DetailWorkingSpace.vue') }
     ]
   },
 

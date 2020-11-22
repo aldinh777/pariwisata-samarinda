@@ -130,7 +130,7 @@
           <q-card class="q-pa-md">
             <div class="text-h6 text-blue-8">Lihat Juga</div>
             <q-separator />
-            <div v-for="rec in recomendations" :key="rec.id" @click="forward(rec.id)">
+            <div v-for="rec in recomendations" :key="rec.slug" @click="forward(rec.slug)">
               <div class="q-mt-md q-mb-md">
                 <img :src="rec.gambar" alt="Gambar" class="full-width">
                 <div class="text-bold q-mt-md">{{ rec.nama }}</div>
@@ -166,15 +166,15 @@ export default {
     }
   },
   methods: {
-    forward (id) {
-      this.$router.push('/wisata/' + id)
+    forward (slug) {
+      this.$router.push('/wisata/' + slug)
     }
   },
   preFetch ({ store, currentRoute }) {
-    const id = currentRoute.params.id
+    const slug = currentRoute.params.slug
     return Promise.all([
-      store.dispatch('wisata/getData', id),
-      store.dispatch('wisata/getRecomendations', id)
+      store.dispatch('wisata/getData', slug),
+      store.dispatch('wisata/getRecomendations', slug)
     ])
   }
 }

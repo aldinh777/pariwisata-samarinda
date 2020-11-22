@@ -11,5 +11,8 @@ export const api = {
 }
 
 export function getImage (src) {
+  if (!src) {
+    return ''
+  }
   return src.startsWith('http') ? src : api.host + src
 }

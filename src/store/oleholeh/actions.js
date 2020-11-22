@@ -11,13 +11,13 @@ export async function getList ({ commit }, limit) {
     title: res.nama,
     description: res.deskripsi_singkat,
     img: getImage(res.gambar),
-    target: '/oleholeh/' + res.id
+    target: '/oleholeh/' + res.slug
   }))
   commit('getList', list)
 }
 
-export async function getData ({ commit }, id) {
-  const response = await axios.get(api.host + api.endpoint.oleholeh + '?id=' + id)
+export async function getData ({ commit }, slug) {
+  const response = await axios.get(api.host + api.endpoint.oleholeh + '?slug=' + escape(slug))
   const { nama, deskripsi, gambar } = response.data
   commit('getData', {
     title: nama,
@@ -26,8 +26,8 @@ export async function getData ({ commit }, id) {
   })
 }
 
-export async function getRecomendations ({ commit }, id) {
-  const response = await axios.get(api.host + api.endpoint.oleholeh + '?limit=3&exceptId=' + id)
+export async function getRecomendations ({ commit }, slug) {
+  const response = await axios.get(api.host + api.endpoint.oleholeh + '?limit=3&except=' + escape(slug))
   const recomendations = response.data.map(function (res) {
     const { gambar } = res
     res.gambar = getImage(gambar)
