@@ -11,6 +11,7 @@ export async function getList ({ commit }, limit) {
     title: res.nama,
     description: res.deskripsi_singkat,
     img: getImage(res.gambar),
+    created_at: res.created_at,
     target: '/kuliner/' + res.slug
   }))
   commit('getList', list)

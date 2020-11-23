@@ -23,6 +23,19 @@ const routes = [
   },
 
   {
+    path: '/admin',
+    component: () => import('layouts/AdminLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/admin/Wisata.vue') },
+      { path: 'wisata', component: () => import('pages/admin/Wisata.vue') },
+      { path: 'kafe', component: () => import('pages/admin/Kafe.vue') },
+      { path: 'kuliner', component: () => import('pages/admin/Kuliner.vue') },
+      { path: 'oleholeh', component: () => import('pages/admin/OlehOleh.vue') },
+      { path: 'workingspace', component: () => import('pages/admin/WorkingSpace.vue') }
+    ]
+  },
+
+  {
     path: '*',
     component: () => import('pages/Error404.vue')
   }

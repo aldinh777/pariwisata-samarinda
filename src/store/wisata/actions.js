@@ -12,6 +12,7 @@ export async function getList ({ commit }, limit) {
     subtitle: res.alamat,
     description: res.deskripsi_singkat,
     img: getImage(res.gambar),
+    created_at: res.created_at,
     target: '/wisata/' + res.slug
   }))
   commit('getList', list)
