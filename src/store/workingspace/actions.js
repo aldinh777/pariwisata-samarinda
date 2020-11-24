@@ -10,6 +10,7 @@ export async function getList ({ commit }, limit) {
   const list = response.data.map(res => ({
     title: res.nama,
     subtitle: res.alamat,
+    slug: escape(res.slug),
     description: 'Jam Buka : ' + res.jam_buka,
     img: getImage(res.gambar),
     created_at: res.created_at,

@@ -5,7 +5,7 @@
       <q-card-section>
         <div class="text-h6 text-grey-8">
           Wisata
-          <q-btn label="Tambah" class="float-right text-capitalize text-indigo-8 shadow-3" icon="add"/>
+          <q-btn to="/admin/wisata/tambah" label="Tambah" class="float-right text-capitalize text-indigo-8 shadow-3" icon="add"/>
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -27,7 +27,7 @@
           </template>
           <template v-slot:body-cell-Action="props">
             <q-td :props="props">
-              <q-btn icon="edit" size="sm" flat dense/>
+              <q-btn :to="'/admin/wisata/update/' + props.row.slug" icon="edit" size="sm" flat dense/>
               <q-btn icon="delete" size="sm" class="q-ml-sm" flat dense/>
             </q-td>
           </template>
@@ -54,7 +54,6 @@ export default {
   },
   computed: {
     data () {
-      console.log(this.$store.state.wisata.list)
       return this.$store.state.wisata.list
     }
   },

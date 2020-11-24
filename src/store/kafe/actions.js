@@ -11,6 +11,7 @@ export async function getList ({ commit }, limit) {
     title: res.nama,
     subtitle: res.alamat,
     description: 'Jam Buka : ' + res.jam_buka,
+    slug: escape(res.slug),
     img: getImage(res.gambar),
     created_at: res.created_at,
     target: '/kafe/' + res.slug
