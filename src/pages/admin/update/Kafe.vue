@@ -38,7 +38,7 @@
           </div>
 
           <div class="col-12 q-mt-md">
-            <q-btn class="float-right bg-green text-white">Simpan</q-btn>
+            <q-btn @click="save" class="float-right bg-green text-white">Simpan</q-btn>
           </div>
         </div>
 
@@ -61,6 +61,26 @@ export default {
         lat: 0,
         lng: 0
       }
+    }
+  },
+  methods: {
+    save () {
+      const { nama, alamat, deskripsi, lat, lng } = this.detail
+      this.$axios.put('/api/kafe', {
+        slug: this.$route.params.slug,
+        nama,
+        alamat,
+        deskripsi,
+        lat,
+        lng,
+        jam_buka: this.detail.jam_buka
+      }).then(res => {
+        this.$q.notify('Berhasil')
+        this.$router.push('/admin/kafe')
+      }).catch(err => {
+        this.$q.notify('Error')
+        console.log(err)
+      })
     }
   },
   computed: {

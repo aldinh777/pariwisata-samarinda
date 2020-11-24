@@ -38,7 +38,7 @@
           </div>
 
           <div class="col-12 q-mt-md">
-            <q-btn class="float-right bg-green text-white">Tambah</q-btn>
+            <q-btn @click="create" class="float-right bg-green text-white">Tambah</q-btn>
           </div>
         </div>
 
@@ -61,6 +61,25 @@ export default {
         lat: 0,
         lng: 0
       }
+    }
+  },
+  methods: {
+    create () {
+      const { nama, lokasi, deskripsi, lat, lng } = this.detail
+      this.$axios.post('/api/wisata', {
+        nama,
+        lokasi,
+        deskripsi,
+        lat,
+        lng,
+        deskripsi_singkat: this.detail.deskripsi_singkat
+      }).then(res => {
+        this.$q.notify('Berhasil')
+        this.$router.push('/admin/wisata')
+      }).catch(err => {
+        this.$q.notify('Error')
+        console.log(err)
+      })
     }
   }
 }

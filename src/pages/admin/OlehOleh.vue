@@ -28,12 +28,26 @@
           <template v-slot:body-cell-Action="props">
             <q-td :props="props">
               <q-btn :to="'/admin/oleholeh/update/' + props.row.slug" icon="edit" size="sm" flat dense/>
-              <q-btn icon="delete" size="sm" class="q-ml-sm" flat dense/>
+              <q-btn @click="confirmDelete(props.row.slug)" icon="delete" size="sm" class="q-ml-sm" flat dense/>
             </q-td>
           </template>
         </q-table>
       </q-card-section>
     </q-card>
+
+    <q-dialog v-model="hapus" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="delete" color="red" text-color="white" />
+          <span class="q-ml-sm">Yakin Ingin Menghapus?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Batalkan" color="primary" v-close-popup />
+          <q-btn @click="deleteData" flat label="Hapus" color="red" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
   </q-page>
 </template>
@@ -45,11 +59,28 @@ export default {
     return {
       columns: [
         { name: 'Name', label: 'Nama', field: 'title', sortable: true, align: 'left' },
-        { name: 'Created Date', label: 'Tanggal Dibuat', field: 'created_date', sortable: true, align: 'left' },
+        { name: 'Created Date', label: 'Tanggal Dibuat', field: 'created_at', sortable: true, align: 'left' },
         { name: 'Action', label: '', field: 'Action', sortable: false, align: 'center' }
       ],
       filter: '',
-      show_filter: false
+      show_filter: false,
+      hapus: false,
+      slugHapus: ''
+    }
+  },
+  methods: {
+    confirmDelete (slug) {
+      this.slugHapus = slug
+      this.hapus = true
+    },
+    deleteData () {
+      this.$axios.delete('/api/oleholeh?slug=' + escape(this.slugHapus)).then(res => {
+        this.$q.notify('Data Terhapus')
+        this.$store.dispatch('oleholeh/getList')
+      }).catch(err => {
+        this.$q.notify('Error')
+        console.log(err)
+      })
     }
   },
   computed: {
