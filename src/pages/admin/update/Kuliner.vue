@@ -50,12 +50,26 @@ export default {
   },
   methods: {
     save () {
-      const { nama, deskripsi } = this.detail
-      this.$axios.put('/api/kuliner', {
-        slug: this.$route.params.slug,
+      const bodyFormData = new FormData()
+      const { nama, deskripsi, gambar } = this.detail
+      const data = {
+        _method: 'PUT',
         nama,
         deskripsi,
-        deskripsi_singkat: this.detail.deskripsi_singkat
+        gambar,
+        deskripsi_singkat: this.detail.deskripsi_singkat,
+        slug: this.$route.params.slug
+      }
+      for (const key in data) {
+        const value = data[key]
+        bodyFormData.append(key, value)
+      }
+
+      this.$axios({
+        method: 'post',
+        url: '/api/kuliner',
+        data: bodyFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }).then(res => {
         this.$q.notify('Berhasil')
         this.$router.push('/admin/kuliner')

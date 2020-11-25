@@ -50,11 +50,23 @@ export default {
   },
   methods: {
     create () {
-      const { nama, deskripsi } = this.detail
-      this.$axios.post('/api/kuliner', {
+      const bodyFormData = new FormData()
+      const { nama, deskripsi, gambar } = this.detail
+      const data = {
         nama,
         deskripsi,
+        gambar,
         deskripsi_singkat: this.detail.deskripsi_singkat
+      }
+      for (const key in data) {
+        const value = data[key]
+        bodyFormData.append(key, value)
+      }
+      this.$axios({
+        method: 'post',
+        url: '/api/kuliner',
+        data: bodyFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }).then(res => {
         this.$q.notify('Berhasil')
         this.$router.push('/admin/kuliner')

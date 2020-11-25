@@ -65,14 +65,26 @@ export default {
   },
   methods: {
     create () {
-      const { nama, alamat, deskripsi, lat, lng } = this.detail
-      this.$axios.post('/api/workingspace', {
+      const bodyFormData = new FormData()
+      const { nama, alamat, deskripsi, gambar, lat, lng } = this.detail
+      const data = {
         nama,
         alamat,
         deskripsi,
+        gambar,
         lat,
         lng,
         jam_buka: this.detail.jam_buka
+      }
+      for (const key in data) {
+        const value = data[key]
+        bodyFormData.append(key, value)
+      }
+      this.$axios({
+        method: 'post',
+        url: '/api/workingspace',
+        data: bodyFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }).then(res => {
         this.$q.notify('Berhasil')
         this.$router.push('/admin/workingspace')

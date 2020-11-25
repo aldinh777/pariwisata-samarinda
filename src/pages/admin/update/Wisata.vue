@@ -65,15 +65,29 @@ export default {
   },
   methods: {
     save () {
-      const { nama, lokasi, deskripsi, lat, lng } = this.detail
-      this.$axios.put('/api/wisata', {
-        slug: this.$route.params.slug,
+      const bodyFormData = new FormData()
+      const { nama, lokasi, deskripsi, gambar, lat, lng } = this.detail
+      const data = {
+        _method: 'PUT',
         nama,
         lokasi,
         deskripsi,
+        gambar,
         lat,
         lng,
-        deskripsi_singkat: this.detail.deskripsi_singkat
+        deskripsi_singkat: this.detail.deskripsi_singkat,
+        slug: this.$route.params.slug
+      }
+      for (const key in data) {
+        const value = data[key]
+        bodyFormData.append(key, value)
+      }
+
+      this.$axios({
+        method: 'post',
+        url: '/api/wisata',
+        data: bodyFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }).then(res => {
         this.$q.notify('Berhasil')
         this.$router.push('/admin/wisata')
