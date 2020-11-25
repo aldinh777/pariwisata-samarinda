@@ -23,6 +23,11 @@ const routes = [
   },
 
   {
+    path: '/admin/login',
+    component: () => import('layouts/Login.vue')
+  },
+
+  {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [

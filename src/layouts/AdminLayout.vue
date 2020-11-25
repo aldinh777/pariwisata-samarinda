@@ -76,6 +76,14 @@
             <q-item-label>Oleh-Oleh</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item @click="logout" to="/admin/login" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="exit_to_app"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Logout</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -86,12 +94,29 @@
 </template>
 
 <script>
-export default {
-  name: 'MainLayout',
+import { Cookies } from 'quasar'
 
+export default {
+  name: 'AdminLayout',
   data () {
     return {
       leftDrawerOpen: false
+    }
+  },
+  methods: {
+    logout () {
+      this.$q.cookies.set('authenticated', false)
+    }
+  },
+  preFetch ({ redirect, ssrContext }) {
+    const cookies = process.env.SERVER
+      ? Cookies.parseSSR(ssrContext)
+      : Cookies // otherwise we're on client
+
+    // "cookies" is equivalent to the global import as in non-SSR builds
+    const loggedIn = cookies.get('authenticated')
+    if (!loggedIn) {
+      redirect('/admin/login')
     }
   }
 }
