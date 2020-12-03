@@ -84,9 +84,12 @@ export default {
         method: 'post',
         url: '/api/kafe',
         data: bodyFormData,
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + this.$q.localStorage.getItem('token')
+        }
       }).then(res => {
-        this.$q.notify('Berhasil')
+        this.$q.notify('Berhasil Dibuat')
         this.$router.push('/admin/kafe')
       }).catch(err => {
         this.$q.notify('Error')
