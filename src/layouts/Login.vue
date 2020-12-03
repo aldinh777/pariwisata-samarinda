@@ -21,8 +21,8 @@
             >
               <q-input
                 filled
-                v-model="username"
-                label="Username"
+                v-model="email"
+                label="E-mail"
                 lazy-rules
               />
 
@@ -51,19 +51,29 @@ export default {
   name: 'PageLogin',
   data () {
     return {
-      username: '',
+      email: '',
       password: ''
     }
   },
   methods: {
-    login () {
-      if (this.username === 'admin' && this.password === 'admin') {
-        this.$q.notify('Login Berhasil')
-        this.$q.cookies.set('authenticated', true)
+    async login () {
+      try {
+        const res = await this.$axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        })
+
+        this.$q.localStorage.set('token', res.data.token)
+        this.$q.notify('Berhasil')
         this.$router.push('/admin')
-      } else {
-        this.$q.notify('Username atau Password Salah')
+      } catch (err) {
+        this.$q.notify('E-mail atau Password Salah')
       }
+    }
+  },
+  mounted () {
+    if (this.$q.localStorage.has('token')) {
+      this.$router.replace('/admin')
     }
   }
 }

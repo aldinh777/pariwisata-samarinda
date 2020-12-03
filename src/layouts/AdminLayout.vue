@@ -94,8 +94,6 @@
 </template>
 
 <script>
-import { Cookies } from 'quasar'
-
 export default {
   name: 'AdminLayout',
   data () {
@@ -105,18 +103,13 @@ export default {
   },
   methods: {
     logout () {
-      this.$q.cookies.set('authenticated', false)
+      this.$q.localStorage.remove('token')
+      this.$router.push('/admin/login')
     }
   },
-  preFetch ({ redirect, ssrContext }) {
-    const cookies = process.env.SERVER
-      ? Cookies.parseSSR(ssrContext)
-      : Cookies // otherwise we're on client
-
-    // "cookies" is equivalent to the global import as in non-SSR builds
-    const loggedIn = cookies.get('authenticated')
-    if (!loggedIn) {
-      redirect('/admin/login')
+  mounted () {
+    if (!this.$q.localStorage.has('token')) {
+      this.$router.replace('/admin/login')
     }
   }
 }
