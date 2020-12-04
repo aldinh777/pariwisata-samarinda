@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { Cookies } from 'quasar'
+
 export default {
   name: 'PageAdminWorkingSpace',
   data () {
@@ -92,8 +94,9 @@ export default {
       return this.$store.state.workingspace.list
     }
   },
-  preFetch ({ store }) {
-    return store.dispatch('workingspace/getList')
+  preFetch ({ ssrContext, store }) {
+    const cookies = Cookies.parseSSR(ssrContext)
+    return store.dispatch('workingspace/getLogged', cookies.get('token'))
   }
 }
 </script>

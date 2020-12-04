@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { Cookies } from 'quasar'
+
 export default {
   name: 'PageAdminKafe',
   data () {
@@ -92,8 +94,9 @@ export default {
       return this.$store.state.kafe.list
     }
   },
-  preFetch ({ store }) {
-    return store.dispatch('kafe/getList')
+  preFetch ({ ssrContext, store }) {
+    const cookies = Cookies.parseSSR(ssrContext)
+    return store.dispatch('kafe/getLogged', cookies.get('token'))
   }
 }
 </script>

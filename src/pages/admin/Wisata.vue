@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { Cookies } from 'quasar'
+
 export default {
   name: 'PageAdminWisata',
   data () {
@@ -92,8 +94,9 @@ export default {
       return this.$store.state.wisata.list
     }
   },
-  preFetch ({ store }) {
-    return store.dispatch('wisata/getList')
+  preFetch ({ ssrContext, store }) {
+    const cookies = Cookies.parseSSR(ssrContext)
+    return store.dispatch('wisata/getLogged', cookies.get('token'))
   }
 }
 </script>

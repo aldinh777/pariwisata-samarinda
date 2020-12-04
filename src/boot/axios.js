@@ -2,10 +2,7 @@ import axios from 'axios'
 
 import { Loading } from 'quasar'
 
-export default async ({
-  // app,
-  Vue
-}) => {
+export default async ({ Vue }) => {
   axios.defaults.baseURL = 'http://localhost:8000'
 
   axios.interceptors.request.use(await function (config) {

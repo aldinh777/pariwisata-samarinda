@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { Cookies } from 'quasar'
+
 export default {
   name: 'PageAdminKuliner',
   data () {
@@ -92,8 +94,9 @@ export default {
       return this.$store.state.kuliner.list
     }
   },
-  preFetch ({ store }) {
-    return store.dispatch('kuliner/getList')
+  preFetch ({ ssrContext, store }) {
+    const cookies = Cookies.parseSSR(ssrContext)
+    return store.dispatch('kuliner/getLogged', cookies.get('token'))
   }
 }
 </script>

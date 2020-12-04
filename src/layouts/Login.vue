@@ -63,17 +63,12 @@ export default {
           password: this.password
         })
 
-        this.$q.localStorage.set('token', res.data.token)
+        this.$q.cookies.set('token', res.data.token)
         this.$q.notify('Berhasil Login')
         this.$router.push('/admin')
       } catch (err) {
         this.$q.notify('E-mail atau Password Salah')
       }
-    }
-  },
-  mounted () {
-    if (this.$q.localStorage.has('token')) {
-      this.$router.replace('/admin')
     }
   }
 }

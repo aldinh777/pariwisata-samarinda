@@ -103,13 +103,8 @@ export default {
   },
   methods: {
     logout () {
-      this.$q.localStorage.remove('token')
+      this.$q.cookies.remove('token')
       this.$router.push('/admin/login')
-    }
-  },
-  mounted () {
-    if (!this.$q.localStorage.has('token')) {
-      this.$router.replace('/admin/login')
     }
   }
 }

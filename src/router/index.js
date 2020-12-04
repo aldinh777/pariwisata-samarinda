@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { Cookies } from 'quasar'
 
 import routes from './routes'
 
@@ -14,7 +15,7 @@ Vue.use(VueRouter)
  * with the Router instance.
  */
 
-export default function (/* { store, ssrContext } */) {
+export default function ({ store, ssrContext }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
@@ -24,6 +25,20 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.beforeEach(function (to, from, next) {
+    const cookies = Cookies.parseSSR(ssrContext)
+    if (to.matched[0].path === '/admin') {
+      if (!cookies.has('token')) {
+        return next('/admin/login')
+      }
+    } else if (to.matched[0].path === '/admin/login') {
+      if (cookies.has('token')) {
+        return next('/admin')
+      }
+    }
+    next()
   })
 
   return Router
