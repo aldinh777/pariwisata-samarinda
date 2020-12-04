@@ -78,7 +78,7 @@ export default {
     deleteData () {
       this.$axios.delete('/api/workingspace?slug=' + escape(this.slugHapus), {
         headers: {
-          Authorization: 'Bearer ' + this.$q.localStorage.getItem('token')
+          Authorization: 'Bearer ' + this.$q.cookies.get('token')
         }
       }).then(res => {
         this.$q.notify('Data Terhapus')

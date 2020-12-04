@@ -89,7 +89,7 @@ export default {
         data: bodyFormData,
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + this.$q.localStorage.getItem('token')
+          Authorization: 'Bearer ' + this.$q.cookies.get('token')
         }
       }).then(res => {
         this.$q.notify('Berhasil Diubah')
