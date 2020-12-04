@@ -63,6 +63,7 @@ export default {
           password: this.password
         })
 
+        this.$store.dispatch('auth/login', res.data.token)
         this.$q.cookies.set('token', res.data.token)
         this.$q.notify('Berhasil Login')
         this.$router.push('/admin')

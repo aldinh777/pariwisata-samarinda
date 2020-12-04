@@ -103,6 +103,7 @@ export default {
   },
   methods: {
     logout () {
+      this.$store.dispatch('auth/logout')
       this.$q.cookies.remove('token')
       this.$router.push('/admin/login')
     }

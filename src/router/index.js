@@ -30,10 +30,16 @@ export default function ({ store, ssrContext }) {
   Router.beforeEach(function (to, from, next) {
     const cookies = Cookies.parseSSR(ssrContext)
     if (to.matched[0].path === '/admin') {
+      // if (!store.state.auth.loggedIn) {
+      //   return next('/admin/login')
+      // }
       if (!cookies.has('token')) {
         return next('/admin/login')
       }
     } else if (to.matched[0].path === '/admin/login') {
+      // if (store.state.auth.loggedIn) {
+      //   return next('/admin')
+      // }
       if (cookies.has('token')) {
         return next('/admin')
       }
