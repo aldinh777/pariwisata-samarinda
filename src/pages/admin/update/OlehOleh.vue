@@ -71,7 +71,8 @@ export default {
         data: bodyFormData,
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + this.$q.cookies.get('token')
+          Authorization: 'Bearer ' + this.$q.cookies.get('token'),
+          'Csrf-Token': this.$store.state.auth.csrf
         }
       }).then(res => {
         this.$q.notify('Berhasil Diubah')

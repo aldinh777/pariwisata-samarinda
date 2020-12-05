@@ -63,8 +63,10 @@ export default {
           password: this.password
         })
 
-        this.$store.dispatch('auth/login', res.data.token)
-        this.$q.cookies.set('token', res.data.token)
+        const token = res.data.meta.token
+        const csrf = res.headers['csrf-token']
+        this.$store.dispatch('auth/login', { token, csrf })
+        this.$q.cookies.set('token', token)
         this.$q.notify('Berhasil Login')
         this.$router.push('/admin')
       } catch (err) {

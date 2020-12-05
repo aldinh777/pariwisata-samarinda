@@ -78,7 +78,8 @@ export default {
     deleteData () {
       this.$axios.delete('/api/wisata?slug=' + escape(this.slugHapus), {
         headers: {
-          Authorization: 'Bearer ' + this.$q.cookies.get('token')
+          Authorization: 'Bearer ' + this.$q.cookies.get('token'),
+          'Csrf-Token': this.$store.state.auth.csrf
         }
       }).then(res => {
         this.$q.notify('Data Terhapus')
@@ -94,9 +95,16 @@ export default {
       return this.$store.state.wisata.list
     }
   },
-  preFetch ({ ssrContext, store }) {
+  preFetch ({ ssrContext, store, redirect }) {
     const cookies = Cookies.parseSSR(ssrContext)
-    return store.dispatch('wisata/getLogged', cookies.get('token'))
+    const token = cookies.get('token')
+    const csrf = store.state.auth.csrf
+    if (!csrf) {
+      cookies.remove('token')
+      redirect('/admin/login')
+    }
+
+    return store.dispatch('wisata/getLogged', { token, csrf })
   }
 }
 </script>

@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { api, getImage } from '../config'
 
-export async function getLogged ({ commit }, token) {
+export async function getLogged ({ commit }, { token, csrf }) {
   const response = await axios.get(api.host + api.endpoint.oleholeh + '/get', {
     headers: {
-      Authorization: 'Bearer ' + token
+      Authorization: 'Bearer ' + token,
+      'Csrf-Token': csrf
     }
   })
   const result = response.data

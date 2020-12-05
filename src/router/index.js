@@ -35,13 +35,22 @@ export default function ({ store, ssrContext }) {
       // }
       if (!cookies.has('token')) {
         return next('/admin/login')
+      } else {
+        const csrf = store.state.auth.csrf
+        if (!csrf) {
+          cookies.remove('token')
+          next('/admin/login')
+        }
       }
     } else if (to.matched[0].path === '/admin/login') {
       // if (store.state.auth.loggedIn) {
       //   return next('/admin')
       // }
       if (cookies.has('token')) {
-        return next('/admin')
+        const csrf = store.state.auth.csrf
+        if (csrf) {
+          return next('/admin')
+        }
       }
     }
     next()

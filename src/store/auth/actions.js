@@ -1,5 +1,5 @@
-export function login ({ commit }, token) {
-  commit('login', token)
+export function login ({ commit }, { token, csrf }) {
+  commit('login', { token, csrf })
 }
 
 export function logout ({ commit }) {
