@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import { Cookies } from 'quasar'
 
 import routes from './routes'
+import axios from 'axios'
 
 Vue.use(VueRouter)
 
@@ -36,24 +37,31 @@ export default function ({ store, ssrContext }) {
       if (!cookies.has('token')) {
         return next('/admin/login')
       } else {
-        const csrf = store.state.auth.csrf
-        if (!csrf) {
-          cookies.remove('token')
-          next('/admin/login')
-        }
+        next()
       }
     } else if (to.matched[0].path === '/admin/login') {
       // if (store.state.auth.loggedIn) {
       //   return next('/admin')
       // }
       if (cookies.has('token')) {
-        const csrf = store.state.auth.csrf
-        if (csrf) {
+        const token = cookies.get('token')
+        axios.get('http://localhost:8000/api/user/getToken', {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
+        }).then(res => {
+          store.dispatch('auth/login', { token, csrf: res.data.token })
           return next('/admin')
-        }
+        }).catch(err => {
+          cookies.remove('token')
+          return next()
+        })
+      } else {
+        next()
       }
+    } else {
+      next()
     }
-    next()
   })
 
   return Router
